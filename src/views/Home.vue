@@ -1,10 +1,9 @@
 <template>
   <div class="home">
     <div class="grid">
-      <Car />
-      <Car />
-      <Car />
-      <Car />
+      <div v-for="car in carData" :key="car.id">
+        <Car :car="car"/>
+      </div>
       <div class="empty">
         <div class="add">+</div>
       </div>
@@ -15,9 +14,15 @@
 <script>
 
 import Car from '@/components/Car.vue';
+import carData from '@/assets/data.json';
 
 export default {
   name: 'home',
+  data() {
+    return {
+      carData,
+    };
+  },
   components: {
     Car,
   },

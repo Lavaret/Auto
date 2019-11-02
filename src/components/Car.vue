@@ -1,20 +1,29 @@
 <template>
-  <section class="wrapper">
-    <img class="car-logo" :src="logo" :alt="pic"/>
-    <div class="model">chevrolet cruze</div>
+  <section class="wrapper" :style="style">
+    <img class="car-logo" :src="logo" :alt="car.manufacturer"/>
+    <div class="model">{{car.manufacturer}} {{car.model}}</div>
   </section>
 </template>
 
 <script>
 export default {
   name: 'Car',
+  props: {
+    car: {
+      type: Object,
+      required: true,
+    },
+  },
   computed: {
     logo() {
-      const rand = Math.floor(Math.random() * Math.floor(3));
-      const logos = ['chevrolet', 'kia', 'opel'];
       const images = require.context('../assets/logos', false, /\.png$/);
-
-      return images(`./${logos[rand]}.png`);
+      return images(`./${this.car.manufacturer.toLowerCase()}.png`);
+    },
+    style() {
+      const images = require.context('../assets', false, /\.png$/);
+      const url = images(`./${this.car.image}`);
+      console.log(images, url);
+      return `backgroundImage: url("${url}")`;
     },
   },
 };
@@ -25,7 +34,6 @@ export default {
   top: 0;
   width: 250px;
   height: 250px;
-  background-image: url('../assets/car.png');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -35,7 +43,6 @@ export default {
   border-radius: 8px;
 
   &:hover {
-    opacity: 0.7;
     -moz-box-shadow: 0px 0px 33px -2px rgba(0,0,0,.3);
     box-shadow: 0px 0px 33px -2px rgba(0,0,0,.3);
     -webkit-box-shadow: 0px 0px 33px -2px rgba(0,0,0,0.3);
