@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="grid">
-      <div v-for="car in carData" :key="car.id">
+      <div v-for="car in carData" :key="car._id">
         <Car :car="car"/>
       </div>
       <div class="empty">
@@ -13,8 +13,16 @@
 
 <script>
 
+import axios from 'axios';
 import Car from '@/components/Car.vue';
 import carData from '@/assets/data.json';
+
+const API = 'https://autodb-537c.restdb.io';
+
+const RESTDB = axios.create({
+  baseURL: API,
+  headers: { 'x-apikey': '5dbff64264e7774913b6e891' },
+});
 
 export default {
   name: 'home',
@@ -25,6 +33,15 @@ export default {
   },
   components: {
     Car,
+  },
+  mounted() {
+    RESTDB.get(`${API}/rest/data`)
+      .then((response) => {
+        this.carData = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
 </script>

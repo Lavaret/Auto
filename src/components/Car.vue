@@ -22,7 +22,6 @@ export default {
     style() {
       const images = require.context('../assets', false, /\.png$/);
       const url = images(`./${this.car.image}`);
-      console.log(images, url);
       return `backgroundImage: url("${url}")`;
     },
   },
